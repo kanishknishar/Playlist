@@ -45,9 +45,4 @@ public class Album {
     public ArrayList<Song> getSongs() {
         return songs;
     }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

@@ -61,19 +61,11 @@ public class Playlist {
             goingForward = false;
         }
 
-        if (playlistIterator.hasPrevious()) {
-            return playlistIterator.previous();
-        } else {
-            goingForward = true;
-            return null;
-        }
-
+        return playlistIterator.hasPrevious() ? playlistIterator.previous() : null;
     }
 
     public String[] removeCurrentSong() {
         if (goingForward && playlistIterator.hasPrevious()) {
-
-            //next two lines needed simply to fetch name of the deleted song
 
             String deletedItem = playlistIterator.previous().getTitle();
             playlistIterator.next();
@@ -83,8 +75,6 @@ public class Playlist {
 
         } else if (!goingForward && playlistIterator.hasNext()) {
 
-            //next two lines needed simply to fetch name of the deleted song
-
             String deletedItem = playlistIterator.next().getTitle();
             playlistIterator.previous();
 
@@ -93,9 +83,7 @@ public class Playlist {
         } else {
             return new String[] {"a" , "a"}; //dummy values
         }
-
     }
-
 
     public Song rewind() {
         if (playlistIterator.hasPrevious() && goingForward) {
@@ -110,49 +98,25 @@ public class Playlist {
     }
 
     public boolean checkPlaylist(String title) {
-        for (Song song : songs) {
-            if (song.getTitle().equals(title)) {
-                return true;
-            }
-        }
-
-        return false;
+        return songs.stream().anyMatch(song -> song.getTitle().equals(title));
     }
 
     private boolean checkPlaylist(Song songToCheck) {
-        for (Song song : songs) {
-            if (song==songToCheck) {
-                return true;
-            }
-        }
-
-        return false;
+        return songs.stream().anyMatch(song -> song == songToCheck);
     }
 
     public void sortByDescendingLength() {
-
-        songs.sort(new Comparator<Song>() {
-            @Override
-            public int compare(Song o1, Song o2) {
-                return Double.compare(o2.getLength(), o1.getLength());
-            }
-        });
+        songs.sort((o1, o2) -> Double.compare(o2.getLength(), o1.getLength()));
 
         System.out.println(this);
-
     }
 
     public void sortByAscendingLength() {
-        songs.sort(new Comparator<Song>() {
-            @Override
-            public int compare(Song o1, Song o2) {
-                return Double.compare(o1.getLength(), o2.getLength());
-            }
-        });
+        songs.sort(Comparator.comparingDouble(Song::getLength));
 
         System.out.println(this);
-
     }
+
     @Override
     public String toString() {
         System.out.println("Lance's Playlist: ");
@@ -161,6 +125,7 @@ public class Playlist {
         for (Song song : songs) {
             stringBuilder.append(count++).append(". ").append(song).append("\n");
         }
+
         return stringBuilder.toString();
     }
 }
