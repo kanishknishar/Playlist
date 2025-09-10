@@ -1,6 +1,6 @@
-# Java Music Player
+# Playlist Simulator
 
-Console-based music player application demonstrating LinkedList navigation and object-oriented design.
+Console-based simulation of a music player application demonstrating LinkedList navigation and object-oriented design.
 
 ## Features
 
