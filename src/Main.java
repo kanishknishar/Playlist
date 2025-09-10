@@ -23,9 +23,8 @@ public static void main() {
 }
 
 private static void mainMenu() {
-    loop:
-    while (true) {
-        System.out.println("""                    
+    loop: while (true) {
+        System.out.println("""
                 Welcome to the Java Music Player. What would you like to do?
                 Press 1 to start playing music.
                 Press 2 to print the playlist.
@@ -66,8 +65,7 @@ private static void startMusic() {
     playlist.startPlaylist();
     System.out.println(playlist);
 
-    loop:
-    while (true) {
+    loop: while (true) {
         System.out.println("""
                 \nPress 1 to go to the next song.
                 Press 2 to go back to the previous song.
@@ -94,7 +92,7 @@ private static void nextSong() {
     if (song == null) {
         System.out.println("Reached the end of the list.");
     } else {
-        System.out.println(STR."Now playing: \{song.getTitle()}");
+        System.out.format("Now playing: %s", song.getTitle());
     }
 }
 
@@ -103,32 +101,31 @@ private static void previousSong() {
     if (song == null) {
         System.out.println("Reached the start of the list.");
     } else {
-        System.out.println(STR."Now playing \{song.getTitle()}");
+        System.out.format("Now playing %s", song.getTitle());
     }
 }
 
 private static void rewind() {
     Song song = playlist.rewind();
-    System.out.println(song == null ? "No track playing." : STR."\{song.getTitle()} being replayed.");
+    System.out.println(song == null ? "No track playing." : String.format("%s being replayed.", song.getTitle()));
 }
 
 private static void removeCurrentSong() {
     String[] value = playlist.removeCurrentSong();
     if (value[0].equals("Deleted previous entry")) {
-        System.out.println(STR."Successfully deleted: \{value[1]}");
+        System.out.format("Successfully deleted: %s", value[1]);
     } else if (value[0].equals("Deleted next entry")) {
-        System.out.println(STR."Successfully deleted \{value[1]}");
+        System.out.format("Successfully deleted %s", value[1]);
     } else {
         System.out.println("No song playing.");
     }
-
 }
 
 private static void checkSong() {
     System.out.println("Which song's presence would you like to check in the playlist?");
     String title = scanner.nextLine();
     boolean songCheck = playlist.checkPlaylist(title);
-    System.out.println(songCheck ? STR."\{title} found." : STR."\{title} not found.");
+    System.out.println(songCheck ? String.format("%s found.", title) : String.format("%s not found.", title));
 }
 
 private static void removeSong() {
@@ -136,9 +133,7 @@ private static void removeSong() {
     String title = scanner.nextLine();
 
     boolean b = playlist.removeSong(title);
-
-    System.out.println(b ? STR."\{title} not found." : STR."\{title} removed.");
-
+    System.out.println(b ? String.format("%s not found.", title) : String.format("%s removed.", title));
 }
 
 private static void addSongToPlaylist() {
@@ -152,7 +147,7 @@ private static void addSongToPlaylist() {
     }
 
     if (album == null) {
-        System.out.println(STR."\{albumTitle} not found.");
+        System.out.format("%s not found.", albumTitle);
         return;
     }
 
@@ -161,11 +156,11 @@ private static void addSongToPlaylist() {
 
     int check = playlist.addSong(album, song);
     if (check == 1) {
-        System.out.println(STR."\{song} successfully added.");
+        System.out.format("%s successfully added.", song);
     } else if (check == 0) {
-        System.out.println(STR."\{song} already exists in the playlist.");
+        System.out.format("%s already exists in the playlist.", song);
     } else {
-        System.out.println(STR."\{song} not found on \{albumTitle}");
+        System.out.format("%s not found on %s", song, albumTitle);
     }
 }
 
@@ -174,14 +169,14 @@ private static void addAlbum() {
     String title = scanner.nextLine();
     for (Album album : arrayOfAlbums) {
         if (album.getName().equals(title)) {
-            System.out.println(STR."An album called \{title} already exists.");
+            System.out.format("An album called %s already exists.", title);
             return;
         }
     }
 
     Album album = new Album(title);
     arrayOfAlbums.add(album);
-    System.out.println(STR."\{title} successfully added to your library.");
+    System.out.format("%s successfully added to your library.", title);
 }
 
 private static void addSongToAlbum() {
@@ -198,24 +193,24 @@ private static void addSongToAlbum() {
 
             boolean check = album.addSong(title, length);
             if (check) {
-                System.out.println(STR."\{title} successfully added to \{albumTitle}.");
+                System.out.format("%s successfully added to %s.", title, albumTitle);
             } else {
-                System.out.println(STR."\{title} already exists on\{albumTitle}");
+                System.out.format("%s already exists on %s", title, albumTitle);
             }
             return;
         }
     }
 
-    System.out.println(STR."No \{albumTitle} found.");
+    System.out.format("No %s found.", albumTitle);
 }
 
 private static void printLibrary() {
     int albumCount = 1;
     for (Album album : arrayOfAlbums) {
-        System.out.println(STR."\t\{albumCount++} - \{album.getName().toUpperCase()}");
+        System.out.format("\t%d - %s", albumCount++, album.getName().toUpperCase());
         int songCount = 1;
         for (Song song : album.getSongs()) {
-            System.out.println(STR."\{songCount++}. \{song}");
+            System.out.format("%d. %s", songCount++, song);
         }
     }
 }
